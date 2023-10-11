@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "engines": {
     "node": ">=16.x"
-
   },
   "scripts": {
     "test": "jest"
@@ -14,7 +13,10 @@
     "commit": "d257c41694344460623eb1f1bb2a690bdfe33f83"
   },
   "dependencies": {
+    "chalk": "^5.3.0",
+    "figlet": "^1.6.0",
     "got": "^11.8.3",
+    "inquirer": "^9.2.11",
     "node-fetch": "^2.7.0"
   },
   "devDependencies": {

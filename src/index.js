@@ -5,10 +5,11 @@ const {
   linkValidator,
   validMarkdownFile,
   printLinkInfo,
+  calculateStats,
 } = require('./fileUtils');
 
 
-function mdLinks(filePath, validate = false) {
+function mdLinks(filePath, options = { validate: false, stats: false }) {//Usaremos un objeto options para mantener una estructura de datos mas clara
   const absolutePath = path.resolve(filePath);//Esta linea convierte la ruta a absoluta con el metodo path.resolve para que pueda funcionar en todos los modulos de manera futura.
 
   return new Promise((resolve, reject) => {//Creamos una promesa que resuelva la lectura del archivo y que extraiga los enlaces contenidos
@@ -21,31 +22,41 @@ function mdLinks(filePath, validate = false) {
         }
 
         const links = linkExtractor(content);//Extraemos los enlaces dentro del contenido del archivo md con nuestra funcion importada de linkExtractor.
-        if (!validate) {
-          // Si no se requiere validación, simplemente resolvemos con los enlaces.
+
+        if (options.validate && options.stats) {
+          // Validación y estadísticas
+          const linkValidationPromises = links.map((link) => linkValidator(link));
+
+          Promise.all(linkValidationPromises)
+            .then((validatedLinks) => {
+              const stats = calculateStats(validatedLinks);
+              resolve(stats);
+            })
+            .catch((validationError) => {
+              reject(validationError);
+            });
+        } else if (options.validate) {
+          // Solo validación
+          const linkValidationPromises = links.map((link) => linkValidator(link));
+
+          Promise.all(linkValidationPromises)
+            .then((validatedLinks) => {
+              resolve(validatedLinks);
+            })
+            .catch((validationError) => {
+              reject(validationError);
+            });
+        } else if (options.stats) {
+          // Solo estadísticas
+          const stats = calculateStats(links);
+          resolve(stats);
+        } else {
+          // Sin validación ni estadísticas
           resolve(links.map((link) => ({
             href: link.href,
             text: link.text,
             file: absolutePath,
           })));
-        } else {
-          // Si se requiere validación, vamos a validar cada enlace.
-          const linkValidationPromises = links.map((link) => linkValidator(link));
-
-          // Utilizamos Promise.all para esperar a que todas las validaciones se completen.
-          Promise.all(linkValidationPromises)
-            .then((validatedLinks) => {
-              resolve(validatedLinks.map((link) => ({
-                href: link.href,
-                text: link.text,
-                file: absolutePath,
-                status: link.status,
-                ok: link.ok,
-              })));
-            })
-            .catch((validationError) => {
-              reject(validationError);
-            });
         }
       })
       .catch((error) => {
@@ -58,6 +69,16 @@ function mdLinks(filePath, validate = false) {
   });
 }
 
+mdLinks('src/pruebaFormatoCorrecto.md', { validate: true, stats: true })
+  .then((validatedLinks) => {
+    validatedLinks.forEach((link) => {
+      console.log(`URL: ${link.href}, Texto: ${link.text}, Estado: ${link.status}`);
+    });
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
 /*
 mdLinks('src/pruebaFormatoCorrecto.md', true)
   .then((links) => {
@@ -68,4 +89,5 @@ mdLinks('src/pruebaFormatoCorrecto.md', true)
     console.error('Error:', error);
   });
 */
+
 module.exports = mdLinks;

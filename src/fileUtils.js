@@ -15,7 +15,7 @@ function linkExtractor(content) {
             href: match[2],
 
         };
-        links.push(link);//Con ayuda de .push almacenamos el objeto link dentro de nuestro arreglo links 
+        links.push(link);//Con ayuda de el metodo .push almacenamos el objeto link dentro de nuestro arreglo links 
 
     };
     return links;
@@ -60,6 +60,14 @@ function printLinkInfo(link, index) {
       return texto.slice(0, longitudMaxima) + '...'; // Se toman los primeros 50 caracteres y se agrega "..." para indicar que se ha truncado.
     }
   }
+//---------------------------Función stats para contabilizar el total de enlaces y los enlaces unicos  ----------------------------//
+  function calculateStats(links) {
+    const totalLinks = links.length;
+    const uniqueLinks = new Set(links.map(link => link.href)).size;
+    
+    return { total: totalLinks, unique: uniqueLinks };
+  }
+  
   
 
   module.exports = {
@@ -67,6 +75,7 @@ function printLinkInfo(link, index) {
     linkValidator,
     validMarkdownFile,
     printLinkInfo,
+    calculateStats,
   };
 
   
