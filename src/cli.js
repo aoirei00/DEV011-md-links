@@ -2,12 +2,10 @@
 
 const { program } = require('commander');
 const mdLinks = require('../index');
-const inquirer = require('inquirer');
-const chalk = require('chalk');
 const figlet = require('figlet');
 
 // Encabezado "MD-Links" con Figlet
-console.log(chalk.green(figlet.textSync('MD-Links', { horizontalLayout: 'full' })));
+console.log((figlet.textSync('MD-Links', { horizontalLayout: 'full' })));
 
 program
   .version('1.0.0')
@@ -18,71 +16,28 @@ program
   .action((path, options) => {
     const { validate, stats } = options;
 
-    // Usar inquirer para preguntar al usuario algo
-    if (!path) {
-      inquirer
-        .prompt([
-          {
-            type: 'input',
-            name: 'path',
-            message: 'Introduce la ruta del archivo o directorio:',
-            validate: function (value) {
-              if (value.length) {
-                return true;
-              } else {
-                return 'Por favor, introduce una ruta válida.';
-              }
-            },
-          },
-        ])
-        .then((answers) => {
-          mdLinks(answers.path, { validate, stats }).then((results) => {
-            if (stats && validate) {
-              console.log(`Total: ${results.total}`);
-              console.log(`Únicos: ${results.unique}`);
-              console.log(`Rotos: ${results.fail}`);
-            } else if (stats) {
-              console.log(`Total: ${results.total}`);
-              console.log(`Únicos: ${results.unique}`);
-            } else {
-              results.forEach((link) => {
-                console.log(`URL: ${chalk.blue(link.href)}`);
-                console.log(`Texto: ${chalk.magenta(truncateText(link.text, 50))}`);
-                console.log(`Archivo: ${chalk.cyan(link.file)}`);
-                if (validate) {
-                  console.log(`Estado: ${link.ok} (${link.status})`);
-                }
-                console.log('---');
-              });
-            }
-          }).catch((error) => {
-            console.error(error);
-          });
+    mdLinks(path, { validate, stats }).then((results) => {
+      if (stats && validate) {
+        console.log(`Total: ${results.total}`);
+        console.log(`Únicos: ${results.unique}`);
+        console.log(`Rotos: ${results.fail}`);
+      } else if (stats) {
+        console.log(`Total: ${results.total}`);
+        console.log(`Únicos: ${results.unique}`);
+      } else {
+        results.forEach((link) => {
+          console.log(`URL: ${(link.href)}`);
+          console.log(`Texto: ${(truncateText(link.text, 50))}`);
+          console.log(`Archivo: ${(link.file)}`);
+          if (validate) {
+            console.log(`Estado: ${link.ok} (${link.status})`);
+          }
+          console.log('---');
         });
-    } else {
-      mdLinks(path, { validate, stats }).then((results) => {
-        if (stats && validate) {
-          console.log(`Total: ${results.total}`);
-          console.log(`Únicos: ${results.unique}`);
-          console.log(`Rotos: ${results.fail}`);
-        } else if (stats) {
-          console.log(`Total: ${results.total}`);
-          console.log(`Únicos: ${results.unique}`);
-        } else {
-          results.forEach((link) => {
-            console.log(`URL: ${chalk.blue(link.href)}`);
-            console.log(`Texto: ${chalk.magenta(truncateText(link.text, 50))}`);
-            console.log(`Archivo: ${chalk.cyan(link.file)}`);
-            if (validate) {
-              console.log(`Estado: ${link.ok} (${link.status})`);
-            }
-            console.log('---');
-          });
-        }
-      }).catch((error) => {
-        console.error(error);
-      });
-    }
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
   })
   .parse(process.argv);
 
