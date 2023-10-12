@@ -1,4 +1,4 @@
-const mdLinks = require('../src/index');
+const mdLinks = require('../index');
 const {
   linkExtractor,
   linkValidator,
@@ -68,22 +68,21 @@ describe ('linkValidator',() =>{
   });
 
   describe('calculateStats', () => {
-    it('deberia calcular el total de los enlaces y tambien el total de enlaces unicos', () => {
+    it('debería calcular el total de los enlaces, el total de enlaces únicos y el total de enlaces rotos', () => {
       
       const links = [
-        { href: 'https://github.com/aoirei00', text: 'Github', file: 'src/pruebaFormatoCorrecto.md'},
-        { href: 'https://markdown.es/', text: 'Markdown', file: 'src/pruebaFormatoCorrecto.md'},
-        { href: 'https://markdown.es/', text: 'Markdown', file: 'src/pruebaFormatoCorrecto.md'},
-        { href: 'https://unapaginaquenoexiste.mx', text: 'Inexistente', file: 'src/pruebaFormatoCorrecto.md'},
+        { href: 'https://github.com/aoirei00', text: 'Github', file: 'src/pruebaFormatoCorrecto.md', ok: 'ok' },
+        { href: 'https://markdown.es/', text: 'Markdown', file: 'src/pruebaFormatoCorrecto.md', ok: 'ok' },
+        { href: 'https://markdown.es/', text: 'Markdown', file: 'src/pruebaFormatoCorrecto.md', ok: 'fail' },
+        { href: 'https://unapaginaquenoexiste.mx', text: 'Inexistente', file: 'src/pruebaFormatoCorrecto.md', ok: 'fail' },
       ];
   
       // Calculamos las estadísticas
       const stats = calculateStats(links);
   
       // Verificamos que las estadísticas sean correctas
-      expect(stats).toEqual({ total: 4, unique: 3 });
+      expect(stats).toEqual({ total: 4, unique: 3, ok: 2, fail: 2 });
     });
   });
-
 
 

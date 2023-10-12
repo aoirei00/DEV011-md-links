@@ -1,6 +1,9 @@
 {
   "name": "md-links",
   "version": "0.1.0",
+  "description": "Esta librería permite analizar enlaces contenidos en archivos Markdown. Puedes utilizarla tanto en formato de línea de comandos (CLI) o instalarla como un módulo desde GitHub.",
+  "author": "Jasmin Becerra Flores <aoirei02@gmail.com> (https://github.com/aoiei00)",
+  "license":"ISC",
   "engines": {
     "node": ">=16.x"
   },
@@ -14,6 +17,7 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
+    "commander": "^11.0.0",
     "figlet": "^1.6.0",
     "got": "^11.8.3",
     "inquirer": "^9.2.11",
@@ -21,5 +25,21 @@
   },
   "devDependencies": {
     "jest": "^29.7.0"
-  }
+  },
+  "bin": {
+    "md-links": "./src/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aoirei00/DEV011-md-links" 
+  },
+  
+  "keywords": ["markdown", "links", "md-links"],
+  
+  "bugs": {
+    "url": "https://github.com/aoirei00/DEV011-md-links/issues" 
+  },
+  
+  "homepage": "https://github.com/tu_usuario/tu_proyecto" 
+
 }

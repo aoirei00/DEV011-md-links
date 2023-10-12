@@ -4,9 +4,8 @@ const {
   linkExtractor,
   linkValidator,
   validMarkdownFile,
-  printLinkInfo,
   calculateStats,
-} = require('./fileUtils');
+} = require('./src/fileUtils');
 
 
 function mdLinks(filePath, options = { validate: false, stats: false }) {//Usaremos un objeto options para mantener una estructura de datos mas clara
@@ -69,25 +68,5 @@ function mdLinks(filePath, options = { validate: false, stats: false }) {//Usare
   });
 }
 
-mdLinks('src/pruebaFormatoCorrecto.md', { validate: true, stats: true })
-  .then((validatedLinks) => {
-    validatedLinks.forEach((link) => {
-      console.log(`URL: ${link.href}, Texto: ${link.text}, Estado: ${link.status}`);
-    });
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-
-/*
-mdLinks('src/pruebaFormatoCorrecto.md', true)
-  .then((links) => {
-    console.log('Enlaces encontrados:');
-    links.forEach((link, index) => printLinkInfo(link, index));
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-*/
 
 module.exports = mdLinks;

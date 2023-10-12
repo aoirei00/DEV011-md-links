@@ -44,28 +44,13 @@ function validMarkdownFile(filePath) {//Creamos una funcion para validar las ext
     return validExtensions.includes(extname);//Nos retorna el nombre de la extencion con el metodo extname que nos devuelve el nombre despues del ultimo punto de la ruta
 }
 
-//---------------------------Función para imprimir la informacion----------------------------//
-
-function printLinkInfo(link, index) {
-    console.log(`Enlace ${index + 1}:`);
-    for (const key in link) {
-      console.log(`${key}: ${link[key]}`);
-    }
-  }
-//---------------------------Función para truncar el texto ----------------------------//
-  function truncarTexto(texto, longitudMaxima) {
-    if (texto.length <= longitudMaxima) {
-      return texto; // Si el texto ya es más corto o igual a la longitud máxima, no se trunca.
-    } else {
-      return texto.slice(0, longitudMaxima) + '...'; // Se toman los primeros 50 caracteres y se agrega "..." para indicar que se ha truncado.
-    }
-  }
 //---------------------------Función stats para contabilizar el total de enlaces y los enlaces unicos  ----------------------------//
   function calculateStats(links) {
     const totalLinks = links.length;
     const uniqueLinks = new Set(links.map(link => link.href)).size;
-    
-    return { total: totalLinks, unique: uniqueLinks };
+    const brokenLinks = links.filter(link => link.ok === 'fail').length;
+
+  return { total: totalLinks, unique: uniqueLinks, ok: totalLinks - brokenLinks, fail: brokenLinks };
   }
   
   
@@ -74,7 +59,6 @@ function printLinkInfo(link, index) {
     linkExtractor,
     linkValidator,
     validMarkdownFile,
-    printLinkInfo,
     calculateStats,
   };
 
