@@ -8,7 +8,6 @@
 * [4. Detalles Adicionales](#4-Detalles-Adicionales)
 *
 ***
-![md-links](https://drive.google.com/file/d/1w56sFbkwjj4BO7cHKN0DG303E0FIGVez/view?usp=sharing)
 
 ## 1. Descripción de libreria
 
