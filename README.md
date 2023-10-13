@@ -19,7 +19,7 @@
 Para instalar `mdLinks`, asegúrate de tener [Node.js](https://nodejs.org/) instalado en tu sistema. Luego, ejecuta el siguiente comando en tu terminal:
 
 ```shell
-`npm i jb-md-links`
+`npm i jbf-md-links`
 ```
 
 ## 3. Uso
