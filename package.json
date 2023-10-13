@@ -1,5 +1,5 @@
 {
-  "name": "jb-md-links",
+  "name": "jbf-md-links",
   "version": "0.1.0",
   "description": "Esta librería permite analizar enlaces contenidos en archivos Markdown. Puedes utilizarla tanto en formato de línea de comandos (CLI) o instalarla como un módulo desde GitHub.",
   "author": "Jasmin Becerra Flores <aoirei02@gmail.com> (https://github.com/aoiei00)",
